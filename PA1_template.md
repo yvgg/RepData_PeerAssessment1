@@ -13,7 +13,8 @@ Load the data (i.e. read.csv())
 Process/transform the data (if necessary) into a format suitable for your analysis.
 
 
-```{r}
+
+```r
 ## Read data
 data <- read.csv('./activity.csv')
 ## Sum of steps taken by day using tapply
@@ -27,18 +28,9 @@ Make a histogram of the total number of steps taken each day.
 
 Calculate and report the mean and median total number of steps taken per day.
 
-```{r, echo=FALSE}
-## What is mean total number of steps taken per day?
-## Makes the histogram of the sum of steps taken per day
-hist(sum_steps, main ='Histogram of number of steps taken per day',
-     xlab='Number of steps')
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
 
-## mean and standart deviation of the sum of steps taken per day
-mean_steps_perday <- mean(sum_steps, na.rm=TRUE)
-std_steps_perday <- sd(sum_steps, na.rm=TRUE)
-```
-
-The mean total number of steps taken per day is `r mean_steps_perday`, the standart deviation is `r std_steps_perday`.
+The mean total number of steps taken per day is 1.0766189 &times; 10<sup>4</sup>, the standart deviation is 4269.1804927.
 
 ## What is the average daily activity pattern?
 
@@ -46,7 +38,8 @@ Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and 
 
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
-```{r}
+
+```r
 ## What is the average daily activity pattern?
 ## Makes the mean steps taken in each interval
 mean_steps <- tapply(data$steps, data$interval, mean, na.rm=TRUE)
@@ -54,12 +47,16 @@ mean_steps <- tapply(data$steps, data$interval, mean, na.rm=TRUE)
 ## Plots this mean
 plot(mean_steps, type='l', xlab = 'Intervals', ylab = 'Mean steps', 
      main='Average number of steps taken')
+```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
+
+```r
 ## Looks for the 5 minutes interval in which de mean of steps is the highest
 index <- which(mean_steps==max(mean_steps))
 ```
 
-The 5-minute interval maximum number of steps on average across all the days is `r index`
+The 5-minute interval maximum number of steps on average across all the days is 104
 
 ## Imputing missing values
 
@@ -73,7 +70,8 @@ Create a new dataset that is equal to the original dataset but with the missing 
 
 Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
-```{r}
+
+```r
 ##########################
 ## Imputing missing values
 ## Looks for the position of the missing values
@@ -90,7 +88,11 @@ sum_steps_clean <- tapply(data_clean$steps, data_clean$date, sum)
 ## Makes the histogram of steps per day in the new clean data
 hist(sum_steps_clean,main ='Histogram of number of steps taken per day without missing values',
      xlab='Number of steps')
+```
 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
+
+```r
 ## Compute mean and standart deviation of steps per day in the new clean data
 mean_steps_perday_clean <- mean(sum_steps_clean)
 std_steps_perday_clean <- sd(sum_steps_clean)
@@ -98,7 +100,7 @@ std_steps_perday_clean <- sd(sum_steps_clean)
 
 I removed missing values using the function is.na and which. And I decided to fill up theses values with the mean for that 5-minute interval because I think is a good representation for them.
 
-The mean steps per day without missing values is `r mean_steps_perday_clean` and the standart deviation is `r std_steps_perday_clean`. The mean is equal to the other one `r mean_steps_perday`, but standart deviation no, `r std_steps_perday`. As we have used the mean steps per day to fill up the missing values, the mean remains respect of the old data with missing values.
+The mean steps per day without missing values is 1.0766189 &times; 10<sup>4</sup> and the standart deviation is 3974.390746. The mean is equal to the other one 1.0766189 &times; 10<sup>4</sup>, but standart deviation no, 4269.1804927. As we have used the mean steps per day to fill up the missing values, the mean remains respect of the old data with missing values.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -108,7 +110,8 @@ Create a new factor variable in the dataset with two levels - "weekday" and "wee
 
 Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). See the README file in the GitHub repository to see an example of what this plot should look like using simulated data
     
-```{r}
+
+```r
 ## Are there differences in activity patterns between weekdays and weekends?
 library(lattice)
 
@@ -146,5 +149,7 @@ xyplot(steps~interval|day.f, data=dat,type='l',
        main="Mean steps per intervarls in weekdays and weekendays",
        xlab="Intervals", ylab= 'Mean steps', layout=c(1,2))
 ```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
 As we can see in the plot the curve of weekdays is different from the other one. Therefore, we can conclude there are differences between them.
